@@ -1,0 +1,66 @@
+{
+	"name": "autoSEEKrSM",
+	"version": "1",
+	"description": "time to seeeeeeek",
+	"icons": {
+		"16": "images/16x16.png",
+		"32": "images/32x32.png",
+		"48": "images/48x48.png",
+		"96": "images/96x96.png",
+		"128": "images/128x128.png"
+	},
+	"minimum_chrome_version": "32",
+	"background": {
+		"scripts": [
+			"js/JobAppSetter.js",
+			"js/sample_support.js",
+			"js/background.js"
+		],
+		"persistent": false
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://*.seek.com.au/*"],
+			"js": ["js/content.js"]
+		}
+	],
+	"browser_action": {
+		"default_icon": {
+			"16": "images/16x16.png",
+			"32": "images/32x32.png",
+			"48": "images/48x48.png",
+			"128": "images/128x128.png"
+		},
+		"default_title": "autoSEEKr",
+		"default_popup": "index.html",
+		"scripts": ["js/materialize.min.js", "js/mz.js", "js/popup.js"]
+	},
+	"permissions": [
+		"tabs",
+		"storage",
+		"*://seek.com.au/*",
+		"webNavigation",
+		"identity",
+		"proxy",
+		"activeTab",
+		"clipboardWrite",
+		"clipboardRead",
+		"contextMenus",
+		"<all_urls>",
+		"https://*.googleapis.com/*","https://apis.google.com/js/api.js"
+	],
+	"optional_permissions": ["webRequestBlocking"],
+	"web_accessible_resources": ["*"],
+	"oauth2": {
+		"client_id": "305649687039-4c7et3aiv8dupi81uprvt3lsnqkmi5b4.apps.googleusercontent.com",
+		"scopes": [
+			"https://www.googleapis.com/auth/documents",
+			"https://www.googleapis.com/auth/drive",
+			"https://www.googleapis.com/auth/script.send_mail",
+			"https://www.googleapis.com/auth/spreadsheets",
+			"https://www.googleapis.com/auth/userinfo.email"
+		]
+	},
+	"key": "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCmko/ZpmDH/oaAngeAdbaMa6nFtiIdrQ50Wh0AATrSnHeagPaakJp+b0LAMLA+XZIXIBcy1pR794tyJIt3YAJ0yIj1049dEkPuTAcMIPuLD16lp64M6/Fht1sXWN1a23HmpqRid93LBFI7NmXlNy29LoiWJFCUhgrS8/FD3Sq7aTQMNwEmL28wOXcF2zyOjUwr4Oh6EtGsWebecT3TOj5xO6925KAICEWvibN6RiM+FN9vCBtG3zQ8r+43dFPFiAcdrDTjnCDomxdQ2lu4epSB5Vj/pINJ0mLRqFBH3jWMPgCGoBTWBZnNE8wRWfz1gB4fd1lHHSVdmg/AST1bY0YfAgMBAAECggEAPHEdEoB9SMSyQJRXK4VLJpvggDXtHjCP+KdEM56+nfKZsa4PDZnf/XXY1k00foTMgGisEk3rlioGZvYcx0XGzmJ/1Beew0pf7OWYfw2uyNBcayazkMvCjE8QliGwPIo5Q9T+/B37lHGudv7vrWM+zRFIDZcCyEn1PoO27YWgvlzBxn3tPfSKi4G3G3+GK+4KgiQD4XPGBgyFWJVegSfu4J6tFzpG9LGm1iH1jj6AZ5mS/wmKlPLsD1+4jnIr6uuzlIIkOPqgvi5wHU70jIXfOSJaujLoSlnmwMdRGMUGPbMpUJyif5PkQJLiT0ok7Wefp7nyMJVY/3CMdbZCI6AGlQKBgQDWcVJ491Gs5xf+0fi5V/jyS1+pkEfpWDrXrUzppX7svr122BWmSYuWgH6O9ktrKYXqvhztAo3FbOuROSV+HMJdIQR0xfM8rpWgtESj52eUgVtj6YxrHqrYHQt74T1/YRlvCkGvztD4AiXS6TvVO5OhWo/cOeJgA8Gz0uNQFM4SdQKBgQDG2lyXxbF+JFUvGCyJfsHiAWA7+YeRCqCaQpQ/Wm3efQLniHjoC+n+N94kdEL9NnwkinW6AO8LgAma80QPaGPYwlaVlkHz+QJB7KvUxQzo4Oj+TPkn0ttbHcmAO5vqZgNR77TwjXgp17pUL0mxQAu/p4vyuvTrp9Jish9/Zbl7wwKBgQCUH8DdB9DmAtbDUJxiwk6WZtQUVzIlD6nNksp+1a8frv1GWypRK5n9ApLpA13DDvKO3HU0jcAJ8Buju3qXaxwiogzm8Fj8wIdgc0S6hrw4i0XqdMdmss9F6oIlNsd49kRQPCB1ZQFZXnpr/mky+C0Ylmqqr10b/1xMb05O4aAahQKBgCGrrcwBLIm4azgbNsddUEUNiJb/LIZRr1oPdfy4OixXLJu5zwczpT5nhVTU3tbzV9f0HfUN3WwsFPRIxrh5K5bzaSfRFn/SJSC2i23uo732/1y3+eRVXtEx3QG6li79cQh5t0CYI8WqAqHok+jQeGzOWPMT1w7kDsqpcI3o0pxzAoGBAI25eBhB4lWevWvjO3WERo1vaGSvToJEC6j3H3B7Yo4AXb+Fr335t8HzH2Gji2xN4V8h3fkZg31HrAlxG2TZsyYwQC6Q/f60cae5ZkJNhJ4bet7piH+wjib84MKrKumQx3PUvDsN3ENqPlawZV/7ZpVlf2g5iUH4FmyW8lnqVKCI",
+	"manifest_version": 2
+}

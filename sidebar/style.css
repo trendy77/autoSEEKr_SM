@@ -1,0 +1,251 @@
+@font-face {
+	font-family: tinyHands;
+	src: url("../fonts/bf.eot");
+	src: url("../fonts/bf.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/bf.woff2") format("woff2"),
+		url("../fonts/bf.woff") format("woff"),
+		url("../fonts/bf.ttf") format("truetype"),
+		url("../fonts/bf.svg#svgbf") format("svg");
+}
+
+@font-face {
+	font-family: "Material Icons";
+	font-style: normal;
+	font-weight: 400;
+	src: url("https://fonts.gstatic.com/s/materialicons/v41/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2")
+		format("woff2");
+}
+
+.material-icons {
+	font-family: "Material Icons";
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-moz-font-feature-settings: "liga";
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+	font-family: tinyHands;
+}
+
+h4,
+h5,
+h6 {
+	font-family: "Montserrat";
+}
+
+p {
+	font-family: "Montserrat";
+}
+
+html {
+	text-align: center;
+	padding: 0;
+	background-color: black;
+}
+
+body {
+	background-color: black;
+	color: blue-grey darken-4;
+	margin: 0;
+	text-align: center;
+	font-family: tinyHands;
+}
+
+button,
+btn a,
+i,
+div:hover {
+	opacity: 1;
+	text-transform: full-width;
+}
+
+nav ul a,
+nav .brand-logo {
+	color: #444;
+	padding: 0;
+	list-style: none;
+}
+
+.nav-links .btn {
+	background: #000000;
+}
+
+.nav {
+	color: white;
+	background-color: blue-grey lighten-1;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	overflow: hidden;
+}
+
+.nav ul li:hover,
+.nav ul li.active {
+	background-color: #1976d2;
+}
+
+.log {
+	margin: 10px 20px 20px 20px;
+}
+
+.log textarea {
+	margin: 2px;
+	background: brown;
+	color: black;
+	border: 1px solid rgb(182, 182, 182);
+}
+
+.data,
+.exec_data {
+	min-height: 50px;
+}
+
+.sidenav-trigger {
+	color: hsl(174, 78%, 23%);
+}
+
+.card-title {
+	background-color: #000000;
+}
+
+.card .card-title,
+.card .card-title a {
+	color: white;
+}
+
+.card a:hover {
+	color: black;
+}
+
+.card-action {
+	background: teal;
+}
+
+.card a {
+	color: blue-grey darken-2;
+	margin-right: 0;
+	-webkit-transition: color 0.3s ease;
+	-moz-transition: color 0.3s ease;
+	-o-transition: color 0.3s ease;
+	-ms-transition: color 0.3s ease;
+	transition: color 0.3s ease;
+	text-transform: uppercase;
+}
+
+.row {
+	width: 100%;
+	margin-top: 50px;
+	background: #1a1a1a;
+	border-bottom: 3px solid #ff0057;
+	display: grid;
+	grid-template-columns: 35% auto 35%;
+	align-items: center;
+}
+
+.loadspin,
+#overlay {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 2;
+	cursor: pointer;
+}
+
+h1 {
+	margin: 0 0 10px 0;
+}
+
+button {
+	justify-items: right;
+	background: #000000;
+	border: none;
+	color: orange;
+	text-transform: uppercase;
+	padding: 10px;
+	margin-right: 30px;
+	cursor: pointer;
+}
+
+.header {
+	text-align: center;
+	padding: 10px 0 10px 0;
+}
+
+.header .links * {
+	margin-left: 5px;
+}
+
+.header .links a {
+	color: #666;
+}
+
+.header:hover .links a {
+	color: #3399cc;
+}
+
+.log {
+	margin: 10px 20px 20px 20px;
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	height: 90%;
+	font: caption;
+	background-color: #f4f7f8;
+}
+
+p {
+	margin: 1em 2em;
+}
+
+#innerFieldsContainer {
+	height: 90%;
+	margin: 2em 2em 0 2em;
+	transition: background-color 0.2s ease-out;
+}
+
+#innerFieldsContainer[contenteditable="true"] {
+	background-color: grey;
+	transition: background-color 0.2s ease-in;
+}
+
+[contenteditable]:focus {
+	outline: 0px solid transparent;
+}
+
+.log textarea {
+	width: 100%;
+	min-height: 120px;
+	font-family: "Courier New", Courier, monospace;
+	margin: 2px;
+	background: lightseagreen;
+	color: #727272;
+}
+
+#exec_data {
+	min-height: 80px;
+}

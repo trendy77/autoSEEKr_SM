@@ -1,0 +1,4 @@
+node_modules/.bin/acorn
+node_modules/**
+sidebar/autoseekrsm-7cfc320ccc16.json
+config.autoseekr.js

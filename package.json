@@ -1,0 +1,14 @@
+{
+  "name": "clipseekr",
+  "version": "1.0.0",
+  "description": "## What it does",
+  "main": "clip.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "web-ext": "^2.9.1"
+  }
+}

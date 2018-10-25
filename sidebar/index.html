@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<meta charset="UTF-8">
+		<title>autoSEEKr</title>
+		<link rel="stylesheet" href="normalize.min.css">
+		<link rel="stylesheet" href="materialize.min.css">
+		<link rel="stylesheet" href="style.css">
+		<script src="materialize.min.js"></script>
+		<script src="mz.js"></script>
+		<script src="sample_support.js"></script>
+		<script src="panel.js"></script>
+	</head>
+	<body>
+		<nav>
+			<div class="nav-wrapper">
+				<div class="row">
+					<div class="col s12">
+						<a href="" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+						<h2>autoSEEKr</h2>
+						<ul class="right hide-on-med-and-down">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<ul id="mobile-demo" class="sidenav">
+			<li>
+				<div class="user-view">
+					<div class="background">
+						<img src="">
+					</div>
+					<a href="#userimg"><img id="uimg" class="circle" src="../images/gear128.png"></a>
+					<a href="#username"><span class="white-text name" id="uname"></span></a>
+					<a href="#useremail"><span id="uemail" class="white-text email"></span></a>
+				</div>
+			</li>
+			<li><a href="https://drive.google.com/drive/folders" target="_blank">GDrive</a></li>
+			<li><a href="#!" id="signin" target="_blank">Sign-In</a></li>
+			<li>
+				<div class="divider"></div>
+			</li>
+			<li><a class="subheader">JobSearch</a></li>
+			<li><a target="_blank" href="https://www.seek.com.au/jobs-in-information-communication-technology/in-melbourne?salaryrange=60000-120000&salarytype=annual">IT
+					Jobs, $60-120k</a></li>
+			<li><a target="_blank" href="https://www.seek.com.au/jobs-in-marketing-communications/in-melbourne?salaryrange=60000-120000&salarytype=annual">Marketing,
+					$60-120k</a></li>
+			<li><a target="_blank" href="https://www.seek.com.au/jobs-in-advertising-arts-media/in-melbourne?salaryrange=60000-120000&salarytype=annual">Media,
+					$60-120k</a></li>
+			<li><a target="_blank" href="https://www.seek.com.au/jobs-in-sales/in-melbourne?salaryrange=60000-120000&salarytype=annual">Sales,
+					$60-$140k</a></li>
+			<li><a target="_blank" href="https://www.seek.com.au/jobs/in-melbourne?classification=6281%2C6008%2C6362%2C6317%2C6304%2C6251%2C1204&salaryrange=60000-120000&salarytype=annual">MEGA-7x
+					Search</a></li>
+			<ul class="collapsible collapsible-accordion">
+				<li>
+					<a class="collapsible-header waves-effect">Files<i class="material-icons">folder</i></a>
+					<div class="collapsible-body">
+						<ul>
+							<li><a class="waves-effect" href="#!" id="toScript">Go To Script</a></li>
+							<li><a class="waves-effect" href="#!" id="toSheet">Go To Sheet</a></li>
+							<li><a class="waves-effect" href="#!" id="toFold">Go To Folder</a></li>
+							<li><a class="waves-effect" href="#!" id="toTemp">Go To Template</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			</li>
+			<li class="no-padding">
+				<ul class="collapsible collapsible-accordion">
+					<li>
+						<a class="collapsible-header waves-effect">Edit Method<i class="material-icons">folder</i></a>
+						<div class="collapsible-body">
+							<ul>
+								<li><a class="waves-effect" id="direct">Direct Advert</a></li>
+								<li><a class="waves-effect" id="agency">Agency Advert</a></li>
+								<li><a class="waves-effect" id="private">Private</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<ul class="tabs">
+			<li class="tab col s3 active"><a id="nbut" class='black-text' href='#fieldsContainer'>NEW</a></li>
+			<li class="tab col s3"><a id="jcbut" class='black-text' href='#jobContainer'>Jobs</a></li>
+			<li class="tab col s3"><a class='black-text' href='#processContainer'>Setup</a></li>
+			<li class="tab col s3"><a id="obut" class='black-text' href='#optsContainer'>Options</a></li>
+		</ul>
+		<div id="fieldsContainer" class="col s12">
+			<div id="innerFieldsContainer" class="no pad-bot" style="display:inline;">
+				<h4>ID: <span id="urlin"></span></h4>
+				<div id='jt' class='card-panel hoverable blue-grey lighten-1'>
+					<h6>Job Title</h6>
+					<input id='jtin' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></input>
+					<button id='setZ' class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4">Set</button>
+				</div>
+				<div id='emp' class='card-panel hoverable blue-grey lighten-2' class='tooltipped' data-position='bottom' data-delay='50'
+				 data-tooltip='Enter the business hiring the role...'>
+					<h6>Employer</h6>
+					<div id='empin' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the business (or recruitment agency).'></div>
+					<button id="set1" style="display:none;" class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4">Set</button>
+				</div>
+				<div id='con' class='card-panel hoverable blue-grey darken-1'>
+					<h6>Contact</h6>
+					<span id='conin' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the business (or recruitment agency).'></span>
+					<button id="set2" style="display:none;" class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4">Set</button>
+				</div>
+				<div id='usp1' class='card-panel hoverable blue-grey darken-2'>
+					<h6>USP1</h6>
+					<div id='u1in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+					<button id="set3" style="display:none;" class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4">Set</button>
+				</div>
+				<div id='usp2' class='card-panel hoverable blue-grey darken-2'>
+					<h6>USP2</h6>
+					<div id='u2in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+					<button id="set4" style="display:none;" class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4">Set</button>
+				</div>
+				<div id='usp3' class='card-panel hoverable grey darken-3'>
+					<h6>USP3</h6>
+					<div id='u3in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+					<button style="display:none;" id="set5" class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4">Set</button>
+				</div>
+				<button class="btn waves-effect waves-dark btn-medium pulse" id="goButton">Submit</button>
+				<button disabled class="btn waves-effect waves-dark btn-medium pulse" id="setFromClip">Set Clip</button>
+			</div>
+			<div id="innerFieldsREC" class="no pad-bot" style="display:none;">
+				<h2>AGENCY ADVERTISER</h2>
+				<h4><span id="urlin"></span></h4>
+				<div id='jt' class='card-panel hoverable blue-grey lighten-1'>
+					<h6>Job Title</h6>
+					<div id='jtin' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+					<button class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4" id="setF">Set</button>
+				</div>
+				<div id='emp' class='card-panel hoverable blue-grey lighten-2' class='tooltipped' data-position='bottom' data-delay='50'
+				 data-tooltip='Enter the business hiring the role...'>
+					<h6>Recruiter (Agency)</h6>
+					<div id='empin' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the business (or recruitment agency).'></div>
+				</div>
+				<div id='con' class='card-panel hoverable blue-grey darken-1'>
+					<h6>Recruiter (Contact)</h6>
+					<div id='conin' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the business (or recruitment agency).'></div>
+				</div>
+				<div id='usp1' class='card-panel hoverable blue-grey darken-2'>
+					<h6>USP1</h6>
+					<div id='u1in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+				</div>
+				<div id='usp2' class='card-panel hoverable blue-grey darken-2'>
+					<h6>USP2</h6>
+					<div id='u2in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+				</div>
+				<div id='usp3' class='card-panel hoverable grey darken-3'>
+					<h6>USP3</h6>
+					<div id='u3in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+				</div>
+				<button disabled class="btn waves-effect waves-dark btn-medium pulse" id="goButton">Submit</button>
+				<button disabled class="btn waves-effect waves-dark btn-medium pulse" id="setFromClip">Set Clip</button>
+			</div>
+			<div id="innerFieldsPRI" class="no pad-bot" style="display:none;">
+				<h2>PRIVATE ADVERTISER</h2>
+				<h4><span id="urlin"></span></h4>
+				<div id='jt' class='card-panel hoverable blue-grey lighten-1'>
+					<h6>Job Title</h6>
+					<div id='jtin' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+					<button class="btn waves-effect waves-dark btn-medium pulse blue-grey darken-4" id="setF">Set</button>
+				</div>
+				<div id='con' class='card-panel hoverable blue-grey darken-1'>
+					<h6>Contact (if any...)</h6>
+					<div id='conin' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the business (or recruitment agency).'></div>
+				</div>
+				<div id='usp1' class='card-panel hoverable blue-grey darken-2'>
+					<h6>USP1</h6>
+					<div id='u1in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+				</div>
+				<div id='usp2' class='card-panel hoverable blue-grey darken-2'>
+					<h6>USP2</h6>
+					<div id='u2in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+				</div>
+				<div id='usp3' class='card-panel hoverable grey darken-3'>
+					<h6>USP3</h6>
+					<div id='u3in' contenteditable='true' class='tooltipped' data-position='bottom' data-delay='50' data-tooltip='Enter the title for this role...'></div>
+				</div>
+				<button disabled class="btn waves-effect waves-dark btn-medium pulse" id="goButton">Submit</button>
+				<button disabled class="btn waves-effect waves-dark btn-medium pulse" id="setFromClip">Set Clip</button>
+			</div>
+		</div>
+		<div id="jobContainer" class="col s12">
+			<div id="innJCINPROG" class="no-pad bot">
+				<h2>JOBS</h2>
+				<div id="innSheetlist" class="no-pad bot">
+					<h2>COMPLETED JOBS</h2>
+					<span id="sheetlist">this is where jobs from sheet should be....</span>
+				</div>
+			</div>
+		</div>
+		<div id="processContainer" class="col s12">
+			<div class="card-panel hoverable">
+				<div class="log">
+					<div id="exec_info">
+						<p>Data to be sent on Call Execution API</p>
+						<textarea class="data" id="exec_data"></textarea>
+						<textarea id="__sample_support_logarea" disabled></textarea>
+						<span class="result" id="exec_result"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id='optsContainer' class="col s12">
+			<div class="card-title">
+				<h4>Options</h4>
+			</div>
+			<div class='col s12 indigo lighten-2'>
+				<h6>IDs</h6>
+				<div id='sheetid' class='card-content indigo darken-1'>
+					<h6 class='center'>SheetID</h6>
+					<input id='shtin' type='text'>
+				</div>
+				<div id='templateid' class='card-content indigo darken-2'>
+					<h6 class='center'>TemplateID</h6>
+					<input id='tplin' type='text'>
+				</div>
+				<div id='folderid' class='card-content grey darken-3'>
+					<h6 class='center'>FolderID</h6>
+					<input id='fldin' type='text'>
+				</div>
+				<div class='card-content grey darken-3'>
+					<h6 class='center'>User Fields</h6>
+					<span id="sheetUserCustom"></span>
+				</div>
+				<div class='card-action'>
+					<button class="btn waves-effect waves-dark btn-large pulse" type="submit" name="upIds">Submit <i class="material-icons right">send</i>
+					</button>
+				</div>
+				<div class="log">
+					<div id="opid">
+						<textarea class="data" id="opd"></textarea>
+						<textarea id="__sample_support_logarea" disabled></textarea>
+						<span class="result" id="opr"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<footer>
+			<button class="btn waves-effect waves-dark btn-medium pulse" id="login">Login</button>
+			<button disabled class="btn waves-effect waves-dark btn-medium pulse" id="revoke">Revoke</button>
+		</footer>
+		<script src="panel.js"></script>
+	</body>
+</html>
