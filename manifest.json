@@ -10,7 +10,12 @@
 	},
 	"version": "2.0",
 	"background": {
-		"scripts": ["background.js", "sidebar/sample_support.js"]
+		"scripts": [
+			"authorize.js",
+			"userinfo.js",
+			"background.js",
+			"sidebar/sample_support.js"
+		]
 	},
 	"browser_action": {
 		"default_icon": {
@@ -30,8 +35,8 @@
 	"content_scripts": [
 		{
 			"matches": ["https://*.seek.com.au/"],
-			"js": ["tooltip.js","clip.js"],
-			"css":["tooltip.css"]
+			"js": ["tooltip.js", "clip.js"],
+			"css": ["tooltip.css"]
 		}
 	],
 	"permissions": [
@@ -40,10 +45,12 @@
 		"clipboardWrite",
 		"clipboardRead",
 		"*://seek.com.au/*",
+		"*://accounts.google.com/*",
 		"webNavigation",
 		"identity",
 		"proxy",
 		"activeTab",
+		"notifications",
 		"contextMenus",
 		"<all_urls>",
 		"https://*.googleapis.com/*",

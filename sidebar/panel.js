@@ -1,13 +1,19 @@
-const theTitles = ["JobTitle", "Employer", "Contact", "USP1", "USP2", "USP3"];
-let clickSet;
-let results = {};
-let url = "";
-const SCRIPT_ID = "MNiU5rCPbRI5oHLgJYy_hNZgEv2YCqn3J"; // Apps Script script id
-let STATE_START = 1;
-let STATE_ACQUIRING_AUTHTOKEN = 2;
-let STATE_AUTHTOKEN_ACQUIRED = 3;
-let state = STATE_START;
+//const theTitles = ["JobTitle", "Employer", "Contact", "USP1", "USP2", "USP3"];
+if (!panId) {
+	let panId = 0;
+}
+//const SCRIPT_ID = "MNiU5rCPbRI5oHLgJYy_hNZgEv2YCqn3J"; // Apps Script script id
+
+let state = chrome.runtime.getBackgroundPage(changeState);
 const selectors = ["#jtin", "#empin", "#conin", "#u1in", "#u2in", "#u3in"];
+let clickSet, theJobs, searches, inerJB, textContent, s0,s1,
+	s2,	s3, tTp, tFl, tSc, tSh,	s4,	s5,
+	signin_button,
+	xhr_button,
+	revoke_button,
+	exec_info_div,
+	exec_data,
+	exec_result;
 
 function msger(type) {
 	return new Promise(function(resolve, reject) {
@@ -34,6 +40,13 @@ msger("getFields").then(
 	function(response) {
 		console.log("Success!", response);
 		let fieldsObj = response.fieldsObj;
+		theJobs = response.theJobs || [];
+		searches = response.searches || [];
+		for (var t = 0; t < theJobs.length; t++) {
+			var li = document.body.createElement("li");
+			li.textContent = theJobs[t];
+			inerJB.appendChild(li);
+		}
 		id = response.id;
 		if (id !== 0) {
 			fields = fieldsObj.fields;
@@ -117,12 +130,20 @@ function disableButton(button) {
 function enableButton(button) {
 	button.removeAttribute("disabled");
 }
-function changeState(newState) {
-	state = newState;
+function changeState(window) {
+	console.log(window);
+	let STATE_START = 1;
+	let STATE_ACQUIRING_AUTHTOKEN = 2;
+	let STATE_AUTHTOKEN_ACQUIRED = 3;
+	curId = window.curId;
+	state = window.state;
+	fieldsObj = window.fieldsObj;
+
 	switch (state) {
 		case STATE_START:
 			enableButton(signin_button);
 			disableButton(xhr_button);
+			disableButton(clickSet);
 			disableButton(revoke_button);
 			break;
 		case STATE_ACQUIRING_AUTHTOKEN:
@@ -134,11 +155,19 @@ function changeState(newState) {
 		case STATE_AUTHTOKEN_ACQUIRED:
 			disableButton(signin_button);
 			enableButton(xhr_button);
+			enableButton(clickSet);
 			enableButton(revoke_button);
+			let img = window.user.image;
+			let nam = window.user.name;
+			let mai = window.user.email;
+			document.body.querySelector("#uimg").setAttribute("src", img);
+			document.body.querySelector("#uname").textContent = nam;
+			document.body.querySelector("#uemail").textContent = mai;
 			break;
 	}
 }
 function login() {
+	e.preventDefault();
 	chrome.runtime.getBackgroundPage.getAuthTokenInteractive();
 }
 
@@ -147,32 +176,42 @@ function sendDataToExecutionAPI() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-	let inerJB = document.querySelector("#sheetlist");
-	let s0 = document.querySelector("#setZ");
-	let s1 = document.querySelector("#set1");
-	let s2 = document.querySelector("#set2");
-	let s3 = document.querySelector("#set3");
-	let s4 = document.querySelector("#set4");
-	let s5 = document.querySelector("#set5");
-	let signin_button = document.querySelector("#signin");
-	let xhr_button = document.querySelector("#goButton");
-	let revoke_button = document.querySelector("#revoke");
-	let exec_info_div = document.querySelector("#exec_info");
-	let exec_data = document.querySelector("#exec_data");
-	let exec_result = document.querySelector("#exec_result");
-
 	clickSet = document.querySelector("#setFromClip");
-	clickSet.addEventListener("click", setSelection);
-	s0.addEventListener("click", setSelection);
-	s1.addEventListener("click", setSelection);
-	s2.addEventListener("click", setSelection);
-	s3.addEventListener("click", setSelection);
-	s4.addEventListener("click", setSelection);
-	s5.addEventListener("click", setSelection);
-	signin_button.addEventListener("click", login);
-	xhr_button.addEventListener(
-		"click",
-		sendDataToExecutionAPI.bind(xhr_button, true)
-	);
-	//revoke_button.addEventListener("click", revokeToken);
+	inerJB = document.querySelector("#sheetlist");
+	inerJB.textContent = "";
+	s0 = document.querySelector("#setZ");
+	s1 = document.querySelector("#set1");
+	s2 = document.querySelector("#set2");
+	s3 = document.querySelector("#set3");
+	s4 = document.querySelector("#set4");
+	s5 = document.querySelector("#set5");
+	tSc = document.querySelector("#toScript");
+	tSh = document.querySelector("#toSheet"));
+	tFl = document.querySelector("#toFold");
+	tTp = document.querySelector("#toTemp");
+	signin_button = document.querySelector("#signin");
+	xhr_button = document.querySelector("#goButton");
+	revoke_button = document.querySelector("#revoke");
+	exec_info_div = document.querySelector("#exec_info");
+	exec_data = document.querySelector("#exec_data");
+	exec_result = document.querySelector("#exec_result");
+	chrome.storage.sync.get(function(result) {
+		theJobs = result.theJobs;
+		searches = result.searches;
+		console.log("stored result:" + result);
+		console.log("num jobApps stored are :" + theJobs.length);
+		clickSet.addEventListener("click", setSelection);
+		s0.addEventListener("click", setSelection);
+		s1.addEventListener("click", setSelection);
+		s2.addEventListener("click", setSelection);
+		s3.addEventListener("click", setSelection);
+		s4.addEventListener("click", setSelection);
+		s5.addEventListener("click", setSelection);
+		signin_button.addEventListener("click", login);
+		xhr_button.addEventListener(
+			"click",
+			sendDataToExecutionAPI.bind(xhr_button, true)
+		);
+		//revoke_button.addEventListener("click", revokeToken);
+	});
 });

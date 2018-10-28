@@ -1,13 +1,15 @@
 let curWindowId = 0;
 let curTabId = 0;
-let fields = new Array();
 let fieldsObj = {};
 let theTitles = ["Job Title", "Employer", "Contact", "USP1", "USP2", "USP3"];
-let theJobs = [];
-let progress = 0;
+//let edited = 0;
+//let fields = new Array();
+//let progress = 0;
 let curUrl = "";
 let curId = 0;
+
 let searches = [];
+let theJobs = [];
 
 let SCRIPT_ID = "MNiU5rCPbRI5oHLgJYy_hNZgEv2YCqn3J"; // Apps Script script id
 let STATE_START = 1;
@@ -15,15 +17,16 @@ let STATE_ACQUIRING_AUTHTOKEN = 2;
 let STATE_AUTHTOKEN_ACQUIRED = 3;
 let state = STATE_START;
 
-let isJobsearch = function() {
-	let value = curUrl.includes("seek.com.au/jobs");
-	return value;
-};
 function getId(url) {
 	let searchfor = "seek.com.au/job/"; // 16 chars
+	let searchesfor = "seek.com.au/jobs";
 	if (url.indexOf(searchfor) != -1) {
 		let idStartIndex = 16 + url.indexOf(searchfor);
 		curId = url.substr(idStartIndex, 8);
+		console.log("id is :" + curId);
+		return curId;
+	} else if (url.indexOf(searchesfor) != -1) {
+		curId = "search";
 		console.log("id is :" + curId);
 		return curId;
 	} else {
@@ -31,8 +34,13 @@ function getId(url) {
 	}
 }
 function JobApp(jobId) {
+	let now = Date.now();
+	this.created = now;
+	this.edited = now;
+	this.views = 1;
 	this.id = jobId;
 	this.fields = ["", "", "", "", "", ""];
+	this.titles = theTitles;
 	this.progress = 0;
 }
 function changeState(newState) {
@@ -119,14 +127,12 @@ function executionAPIResponse(response) {
 	}
 	console.log(info);
 }
-
 function revokeToken() {
 	getAuthToken({
 		interactive: false,
 		callback: revokeAuthTokenCallback
 	});
 }
-
 function revokeAuthTokenCallback(current_token) {
 	if (!chrome.runtime.lastError) {
 		// Remove the local cached token
@@ -146,7 +152,6 @@ function revokeAuthTokenCallback(current_token) {
 		);
 	}
 }
-
 function post(options) {
 	let xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
@@ -164,6 +169,15 @@ function post(options) {
 	// Set standard Google APIs authentication header.
 	xhr.setRequestHeader("Authorization", "Bearer " + options.token);
 	xhr.send(JSON.stringify(options.request));
+}
+function fillUser(user) {
+	chrome.contextMenus.update("Sign-In", {
+		title: "SIGNED IN AS:" + user.name
+	});
+}
+
+function logError(error) {
+	console.error(`Error: ${error}`);
 }
 
 /*
@@ -184,54 +198,56 @@ function refreshContent() {
 			console.log("url:" + curUrl);
 			curTabId = tabs[0].id;
 			console.log("tabid:" + curTabId);
-			if (curUrl.includes("seek.com.au/job/")) {
+			if (curUrl.includes("seek.com.au")) {
 				curId = getId(curUrl);
-				if (!theJobs.includes(curId)) {
-					let key = curId;
-					let jsons = {};
-					let j = JSON.stringify(new JobApp(curId));
-					jsons[key] = j;
-					console.log("new stored job:" + j);
-					chrome.storage.sync.set(jsons, function() {
-						console.log("new job added to storage");
-					});
-					theJobs.push(curId);
-					let jkey = "theJobs";
-					let jjsons = {};
-					let jj = JSON.stringify(theJobs);
-					jjsons[jkey] = jj;
-					chrome.storage.sync.set(jjsons, function() {
-						console.log("theJobs saved:" + theJobs);
-						console.log("num jobApps stored are :" + theJobs.length);
-						console.log(theJobs);
-					});
-					updateContent(j);
+				if (curId == "search") {
+					if (!searches.includes(curUrl)) {
+						searches.push(curUrl);
+						let skey = "searches";
+						let sjsons = {};
+						let sj = JSON.stringify(searches);
+						sjsons[skey] = sj;
+						chrome.storage.sync.set(sjsons, function() {
+							console.log("searches saved:" + searches);
+						});
+					} else {
+						console.log("search already stored in sync data");
+					}
+					console.log("num searches stored are :" + searches.length);
+					console.log(searches);
+				} else if (curId != 0) {
+					if (!theJobs.includes(curId)) {
+						let key = curId;
+						let jsons = {};
+						let j = JSON.stringify(new JobApp(curId));
+						jsons[key] = j;
+						console.log("new stored job:" + j);
+						chrome.storage.sync.set(jsons, function() {
+							console.log("new job added to storage");
+						});
+						theJobs.push(curId);
+						let jkey = "theJobs";
+						let jjsons = {};
+						let jj = JSON.stringify(theJobs);
+						jjsons[jkey] = jj;
+						chrome.storage.sync.set(jjsons, function() {
+							console.log("theJobs saved:" + theJobs);
+							console.log("num jobApps stored are :" + theJobs.length);
+							console.log(theJobs);
+						});
+						updateContent(j);
+					} else {
+						chrome.storage.sync.get(curId, function(result) {
+							let js = result[curId];
+							console.log("stored result:" + result);
+							console.log("num jobApps stored are :" + theJobs.length);
+							console.log(theJobs);
+							updateContent(js);
+						});
+					}
 				} else {
-					chrome.storage.sync.get(curId, function(result) {
-						let js = result[curId];
-						console.log("result:" + result);
-						console.log("num jobApps stored are :" + theJobs.length);
-						console.log(theJobs);
-						updateContent(js);
-					});
+					console.log("neither seek job page or search? id is:" + curId);
 				}
-			} else if (isJobsearch) {
-				curId = "search";
-				if (!searches.includes(curUrl)) {
-					searches.push(curUrl);
-					let skey = "searches";
-					let sjsons = {};
-					let sj = JSON.stringify(searches);
-					sjsons[skey] = sj;
-					chrome.storage.sync.set(sjsons, function() {
-						console.log("searches saved:" + searches);
-					});
-				}
-				console.log("num searches stored are :" + searches.length);
-				console.log(searches);
-			} else {
-				console.log("neither seek job page or search?");
-				id = 0;
 			}
 		});
 	});
@@ -243,6 +259,7 @@ chrome.webNavigation.onCommitted.addListener(refreshContent, {
 chrome.storage.onChanged.addListener(function(changes, namespace) {
 	for (key in changes) {
 		let storageChange = changes[key];
+
 		console.log(
 			'Storage key "%s" in namespace "%s" changed. ' +
 				'Old value was "%s", new value is "%s".',
@@ -257,20 +274,27 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 UPDATE when it is a seek job advert page...
 */
 function updateContent(jss) {
+	let now = Date.now();
 	fieldsObj = JSON.parse(jss);
-	fields = fieldsObj.fields;
-	progress = fieldsObj.progress;
+	fieldsObj.edited = now;
+	fieldsObj.views++;
 	console.log(fieldsObj);
-	for (let kk = 0; kk < fields.length; kk++) {
+	for (let kk = 0; kk < fieldsObj.fields.length; kk++) {
 		let k = kk.toString();
 		chrome.contextMenus.update(k, {
-			title: theTitles[kk] + ": *" + fields[kk] + "*",
+			title: theTitles[kk] + ": *" + fieldsObj.fields[kk] + "*",
 			contexts: ["all"]
 		});
 	}
 	chrome.contextMenus.update("progress", {
-		title: "Progress: *" + progress + "*",
+		title: "Progress: *" + fieldsObj.progress + "* Views:" + fieldsObj.views,
 		contexts: ["all"]
+	});
+	let jsons = {};
+	let j = JSON.stringify(fieldsObj);
+	jsons[fieldsObj.id] = j;
+	chrome.storage.sync.set(jsons, function() {
+		console.log("job updated to storage");
 	});
 }
 
@@ -281,7 +305,9 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
 		sendResponse({
 			type: "fields",
 			fieldsObj: fieldsObj,
-			id: curId
+			id: curId,
+			theJobs: theJobs,
+			searches: searches
 		});
 	} else if (type == "setField") {
 		let fieldId = response.fieldId;
@@ -384,7 +410,7 @@ chrome.runtime.onInstalled.addListener(function() {
 	chrome.contextMenus.create({
 		id: "progress",
 		parentId: parent,
-		title: "Progress:" + progress,
+		title: "Progress:",
 		contexts: ["all"]
 	});
 	//chrome.contextMenus.create({id: "Agency", parentId: parent,title: "Agency","contexts": ["all"],"type": "checkbox"});
@@ -400,34 +426,24 @@ chrome.contextMenus.onClicked.addListener(function(item, tab) {
 			" thevalue:" +
 			theValue
 	);
-
 	chrome.contextMenus.update("ResetFields", {
 		visible: true
 	});
-	/*
-	chrome.windows.getCurrent({ populate: true }, function(windowInfo) {
-		curWindowId = windowInfo.id;
-		chrome.tabs.query({ windowId: curWindowId, active: true }, function(tab) {
-			curUrl = tabs[0].url;
-			curTabId = tabs[0].id;
-							progress++;
-			*/
+
 	for (var o = 0; o < 6; o++) {
-		var rr = theTitles[o];
 		if (o == fieldId) {
-			fields[o] = theValue;
-			progress++;
-			fieldsObj.fields = fields;
-			fieldsObj.progress = progress;
-			let key = curId;
+			let now = Date.now();
+			fieldsObj.progress++;
+			fieldsObj.edited = now;
+			fieldsObj.fields[o] = theValue;
 			let jsons = {};
 			let j = JSON.stringify(fieldsObj);
-			jsons[key] = j;
+			jsons[curId] = j;
 			chrome.storage.sync.set(jsons, function() {
 				console.log("job updated to storage");
 			});
 			chrome.contextMenus.update("progress", {
-				title: "Progress:" + progress
+				title: "Progress:" + fieldsObj.progress + ", Views:" + fieldsObj.views
 			});
 			chrome.contextMenus.update(fieldId, {
 				contexts: ["all"],
@@ -437,8 +453,11 @@ chrome.contextMenus.onClicked.addListener(function(item, tab) {
 	}
 	if (fieldId == "Send2Sheet") {
 		sendDataToExecutionAPI();
-	} else if (fieldId == "SignIn") {
-		getAuthTokenInteractive();
+	} else if (fieldId == "Sign-In") {
+		getAccessToken()
+			.then(getUserInfo)
+			.then(fillUser)
+			.catch(logError);
 	} else if (fieldId == "Go2Sheet") {
 		let url = "https://docs.google.com/spreadsheets/d/" + o1 + "/edit";
 		chrome.tabs.create({ url: url, index: tab.index + 1 });
