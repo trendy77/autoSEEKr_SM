@@ -45,6 +45,7 @@ function JobApp(jobId) {
 }
 function changeState(newState) {
 	state = newState;
+
 	switch (state) {
 		case STATE_START:
 			chrome.contextMenus.update("Sign-In", { visible: true });
@@ -109,17 +110,14 @@ function sendDataToExecutionAPICallback(token) {
 		request: {
 			function: "setData",
 			parameters: {
-				data: {
-					fields: fields,
-					id: id
-				}
+				data: JSON.stringify(fieldsObj)
 			}
 		}
 	});
 }
 function executionAPIResponse(response) {
 	let info;
-	console.log("response from sheet:" + JSON.parse(response));
+	console.log("response from sheet:" + JSON.stringify(response));
 	if (response.hasOwnProperty("response")) {
 		console.log("response " + response.response);
 	} else {
@@ -303,6 +301,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
 	console.log("msg-type: " + type);
 	if (type == "getFields") {
 		sendResponse({
+			state: state,
 			type: "fields",
 			fieldsObj: fieldsObj,
 			id: curId,
@@ -324,6 +323,14 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
 			console.log("job updated to storage");
 		});
 		console.log("num jobApps stored are :" + theJobs.length);
+		sendResponse({
+			state: state,
+			type: "fields",
+			fieldsObj: fieldsObj,
+			id: curId,
+			theJobs: theJobs,
+			searches: searches
+		});
 	} else if (response.type == "setNextField") {
 		let fieldVal = response.fieldVal;
 		progress++;
@@ -338,8 +345,20 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
 			console.log("job updated to storage");
 		});
 		console.log("num jobApps stored are :" + theJobs.length);
+		sendResponse({
+			state: state,
+			type: "fields",
+			fieldsObj: fieldsObj,
+			id: curId,
+			theJobs: theJobs,
+			searches: searches
+		});
 	} else if (response.type == "getJobs") {
-		sendResponse({ type: "theJobs", theJobs: theJobs });
+		sendResponse({
+			state: state,
+			type: "theJobs",
+			theJobs: theJobs
+		});
 	}
 });
 

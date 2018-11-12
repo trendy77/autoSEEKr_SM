@@ -1,14 +1,14 @@
 {
 	"manifest_version": 2,
-	"name": "clipSEEKr",
-	"description": "SEEK with copy/paste.",
+	"name": "autoSEEKr",
+	"description": "automate your SEEKing...",
 	"icons": {
 		"16": "images/gear16.png",
 		"32": "images/gear32.png",
 		"48": "images/gear48.png",
 		"128": "images/gear128.png"
 	},
-	"version": "2.0",
+	"version": "4.0",
 	"background": {
 		"scripts": [
 			"authorize.js",
@@ -25,7 +25,7 @@
 			"128": "images/gear128.png"
 		},
 		"default_popup": "sidebar/index.html",
-		"default_title": "clipSEEKr",
+		"default_title": "autoSEEKr",
 		"scripts": [
 			"sidebar/materialize.min.js",
 			"sidebar/mz.js",
